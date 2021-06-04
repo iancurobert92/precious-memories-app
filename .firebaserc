@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "preciousmoments-87cfb": {
+      "hosting": {
+        "precious-memories-app": [
+          "preciousmoments-87cfb"
+        ]
+      }
+    }
+  }
+}

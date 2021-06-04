@@ -1,0 +1,8 @@
+<div class="container-fluid bg-primary">
+  <div class="btn" (click)="onAddPhotosBtnClicked()">Add Photos</div>
+</div>
+<div class="container">
+  <ng-container *ngIf="$data | async as album">
+    {{ album.name }}
+  </ng-container>
+</div>
