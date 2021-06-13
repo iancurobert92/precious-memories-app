@@ -1,21 +1,23 @@
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '@shared/shared.module';
 import { environment } from 'src/environments/environment';
-import { FooterComponent, HeaderComponent } from './components';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { NavComponent } from './components/nav/nav.component';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent],
+  declarations: [NavComponent],
   imports: [
     RouterModule,
     SharedModule,
     NgbModule,
+    MatSidenavModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
   ],
-  exports: [HeaderComponent, FooterComponent, NgbModule, SharedModule],
+  exports: [NavComponent, NgbModule, MatSidenavModule, SharedModule],
 })
 export class CoreModule {}

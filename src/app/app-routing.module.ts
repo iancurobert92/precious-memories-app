@@ -3,9 +3,18 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'photos',
     loadChildren: () =>
-      import('./media/media.module').then((m) => m.MediaModule),
+      import('@features/photo-albums/photo-albums.module').then(
+        (m) => m.PhotoAlbumsModule
+      ),
+  },
+  {
+    path: 'photos/:albumId',
+    loadChildren: () =>
+      import('@features/photo-album/photo-album.module').then(
+        (m) => m.PhotoAlbumModule
+      ),
   },
 ];
 

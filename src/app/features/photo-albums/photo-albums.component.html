@@ -1,0 +1,25 @@
+<!-- #region Create New Album Button -->
+<button
+  id="btn-add"
+  mat-fab
+  color="primary"
+  (click)="onCreateAlbumBtnClicked()"
+>
+  <mat-icon>add</mat-icon>
+</button>
+<!-- #endregion -->
+
+<!-- #region Album List -->
+<ng-container *ngIf="albums.length > 0">
+  <mat-grid-list cols="4" rowHeight="1:1">
+    <mat-grid-tile *ngFor="let album of albums" colspan="1" rowspan="1">
+      <photo-album-widget
+        class="w-100 h-100 p-2"
+        [data]="album"
+        (onDelete)="onDeleteAlbumClicked($event)"
+        (onEdit)="onEditAlbumClicked($event)"
+      ></photo-album-widget>
+    </mat-grid-tile>
+  </mat-grid-list>
+</ng-container>
+<!-- #endregion -->
