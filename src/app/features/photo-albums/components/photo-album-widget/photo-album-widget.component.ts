@@ -1,25 +1,39 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Album, Photo } from '@core/models';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Album, Photo } from "@core/models";
 
 @Component({
-  selector: 'photo-album-widget',
-  templateUrl: './photo-album-widget.component.html',
-  styleUrls: ['./photo-album-widget.component.scss'],
+  selector: "photo-album-widget",
+  templateUrl: "./photo-album-widget.component.html",
+  styleUrls: ["./photo-album-widget.component.scss"],
 })
 export class PhotoAlbumWidgetComponent implements OnInit {
-  @Input() data!: Album<Photo[]>;
-  @Output() onDelete: EventEmitter<string> = new EventEmitter<string>();
-  @Output() onEdit: EventEmitter<string> = new EventEmitter<string>();
+  /* #region  Inputs */
+  @Input() data!: Album<Photo>;
+  /* #endregion */
+
+  /* #region  Outputs */
+  @Output() delete: EventEmitter<Album<Photo>> = new EventEmitter<Album<Photo>>();
+  @Output() rename: EventEmitter<Album<Photo>> = new EventEmitter<Album<Photo>>();
+  @Output() select: EventEmitter<Album<Photo>> = new EventEmitter<Album<Photo>>();
+  /* #endregion */
 
   constructor() {}
 
+  /* #region  Public methods */
   ngOnInit(): void {}
+  /* #endregion */
 
-  onDeleteBtnClicked(id: string): void {
-    this.onDelete.emit(id);
+  /* #region  Event Handlers */
+  onDeleteBtnClicked(data: Album<Photo>): void {
+    this.delete.emit(data);
   }
 
-  onEditBtnClicked(id: string): void {
-    this.onEdit.emit(id);
+  onRenameBtnClicked(data: Album<Photo>): void {
+    this.rename.emit(data);
   }
+
+  onSelectBtnClicked(data: Album<Photo>): void {
+    this.select.emit(data);
+  }
+  /* #endregion */
 }

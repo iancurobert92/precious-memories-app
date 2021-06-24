@@ -1,7 +1,13 @@
+import { Route } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Album, Photo } from '@core/models';
 import { AlbumService } from '@core/services';
+import { NotificationDialogData } from '@shared/models/notification-dialog-data';
+import { NotificationDialogComponent } from '@shared/notification-dialog/notification-dialog.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { CreateAlbumDialogComponent } from './components/create-album-dialog/create-album-dialog.component';
 import { CreateAlbumDialogData } from './models/create-album-dialog-data';
 
@@ -12,56 +18,99 @@ import { CreateAlbumDialogData } from './models/create-album-dialog-data';
 })
 export class PhotoAlbumsComponent implements OnInit {
   /* #region  Public Properties */
-  albums: Album<Photo[]>[] = [];
+  albums: Album<Photo>[] = [];
   /* #endregion */
 
-  constructor(private aS: AlbumService, private dialog: MatDialog) {}
+  /* #region  Private Properties */
+  private destroy$: Subject<void> = new Subject<void>();
+  /* #endregion */
 
-  /* #region  Public Methods */
+  constructor(
+    private aS: AlbumService,
+    private dialog: MatDialog,
+    private router: Router
+  ) {}
+
+  /* #region  Hook Methods */
   ngOnInit(): void {
-    this.aS.getAlbums().subscribe({
-      next: (items: Album<Photo[]>[]) => (this.albums = items),
-    });
+    this.aS
+      .getAlbums()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (items: Album<Photo>[]) => (this.albums = items),
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
   /* #endregion */
 
   /* #region  Event Handlers */
   onCreateAlbumBtnClicked(): void {
-    this.openCreateAlbumDialog((value) => {
+    this.openCreateAlbumDialog('Add Album', 'New Album', (value) => {
       if (value != '') {
-        if (!this.albums.find((album) => album.name == value))
+        if (!this.albums.find((album) => album.name == value)) {
           this.aS.createAlbum(value);
+        } else {
+          this.openNotificationDialog(`The name '${value}' is taken.`);
+        }
       }
     });
   }
 
-  onDeleteAlbumClicked(id: string): void {
-    this.aS.deleteAlbum(id);
+  onDeleteAlbumClicked(data: Album<Photo>): void {
+    this.aS.deleteAlbum(data.id);
   }
 
-  onEditAlbumClicked(id: string): void {
-    this.openCreateAlbumDialog((value) => {
+  onRenameBtnClicked(data: Album<Photo>): void {
+    this.openCreateAlbumDialog('Edit Album', data.name, (value) => {
       if (value != '') {
-        if (!this.albums.find((album) => album.name == value))
-          this.aS.renameAlbum(id, value);
+        if (!this.albums.find((album) => album.name == value)) {
+          this.aS.renameAlbum(data.id, value);
+        } else {
+          this.openNotificationDialog(`The name '${value}' is taken.`);
+        }
       }
     });
+  }
+
+  onAlbumSelected(data: Album<Photo>): void {
+    this.router.navigate(['/photos', data.id]);
   }
   /* #endregion */
 
   /* #region  Private Methods */
-  private openCreateAlbumDialog(cbk: (value: any) => void): void {
-    const data: CreateAlbumDialogData = {
-      title: 'Add Album',
-      inputLabel: 'Name',
-      defaultValue: 'New Album',
+  private openCreateAlbumDialog(
+    title: string,
+    defaultValue: string,
+    cbk?: (value: any) => void
+  ): void {
+    const config: MatDialogConfig<CreateAlbumDialogData> = {
+      data: {
+        title: title,
+        inputLabel: 'Name',
+        defaultValue: defaultValue,
+      },
     };
-    this.dialog
-      .open(CreateAlbumDialogComponent, { data: data })
-      .afterClosed()
-      .subscribe({
-        next: cbk,
-      });
+    if (cbk) {
+      this.dialog
+        .open(CreateAlbumDialogComponent, config)
+        .afterClosed()
+        .subscribe({
+          next: cbk,
+        });
+    }
+  }
+
+  private openNotificationDialog(message: string): void {
+    const config: MatDialogConfig<NotificationDialogData> = {
+      data: {
+        message: message,
+      },
+    };
+    this.dialog.open(NotificationDialogComponent, config);
   }
   /* #endregion */
 }

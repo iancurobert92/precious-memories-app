@@ -1,19 +1,47 @@
-<mat-card class="h-100 w-100 btn">
-  <div class="container p-0">
-    <div class="row">
-      <div class="col-auto my-auto">
-        <mat-card-title class="my-auto">{{ data.name }}</mat-card-title>
-      </div>
-      <div class="col-auto ml-auto">
-        <button mat-icon-button (click)="onEditBtnClicked(data.id)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button (click)="onDeleteBtnClicked(data.id)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-    </div>
+<div style="position: relative">
+  <div class="btn p-0" (click)="onSelectBtnClicked(data)">
+    <ng-container *ngIf="data.media as photos">
+      <ng-container *ngIf="photos.length > 0; else placeholder">
+        <div *ngFor="let photo of photos; let first = first">
+          <img
+            *ngIf="first"
+            class="album-cover"
+            mat-card-image
+            src="{{ photo.src }}"
+          />
+        </div>
+      </ng-container>
+    </ng-container>
+    <ng-template #placeholder>
+      <img
+        class="album-cover"
+        mat-card-image
+        src="https://www.signfix.com.au/wp-content/uploads/2017/09/placeholder-600x400.png"
+      />
+    </ng-template>
   </div>
 
-  <mat-divider></mat-divider>
-</mat-card>
+  <div class="container p-0">
+    <div>
+      {{ data.name }}
+    </div>
+    <div>
+      {{ data.media?.length }}
+    </div>
+  </div>
+  <div style="position: absolute; top: 0px; right: 0px">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon style="color: white">more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="onDeleteBtnClicked(data)">
+        <mat-icon>delete</mat-icon>
+        <span>Delete Album</span>
+      </button>
+      <button mat-menu-item (click)="onRenameBtnClicked(data)">
+        <mat-icon>edit</mat-icon>
+        <span>Rename Album</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>

@@ -7,7 +7,8 @@
     "paths": {
       "@core/*": ["src/app/core/*"],
       "@shared/*": ["src/app/shared/*"],
-      "@features/*": ["src/app/features/*"]
+      "@features/*": ["src/app/features/*"],
+      "@libs/*": ["src/app/libs/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "strict": true,

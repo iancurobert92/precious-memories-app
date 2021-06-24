@@ -1,0 +1,21 @@
+#main-wrapper {
+  position: relative;
+  min-height: 50px;
+}
+
+#image {
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+}
+
+#remove-btn {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+#title {
+  position: relative;
+  margin-right: 20px;
+}
