@@ -1,5 +1,8 @@
+import { Observable } from "rxjs";
+
 export interface Task {
+  id: string;
   file: File;
-  progress?: number;
-  downloadUrl?: string;
+  progress?: Observable<number | undefined>;
+  downloadUrl?: Observable<string | undefined>;
 }

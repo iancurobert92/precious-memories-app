@@ -1,11 +1,14 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
+import { UploadTaskSnapshot } from "@angular/fire/storage/interfaces";
 import { FormControl } from "@angular/forms";
 import { UploadStatus } from "@libs/file-uploader/enums";
 import { FileUploaderConfig } from "@libs/file-uploader/models/file-uploader-config";
 import { Task } from "@libs/file-uploader/models/task";
+import { TasksManager } from "@libs/file-uploader/services/tasks-manager.service";
 import { UploadService } from "@libs/file-uploader/services/upload.service";
 import { RxwebValidators } from "@rxweb/reactive-form-validators";
-import { take, tap } from "rxjs/operators";
+import { forkJoin, Observable, of } from "rxjs";
+import { concatAll, finalize, mergeAll, take, takeLast, tap } from "rxjs/operators";
 
 @Component({
   selector: "ir-file-uploader",
@@ -31,10 +34,10 @@ export class FileUploaderComponent implements OnInit {
   /* #endregion */
 
   /* #region  View Queries */
-  @ViewChild("imgInputRef") imgInputRef!: ElementRef<HTMLInputElement>;
+  @ViewChild("fileInputRef") fileInputRef!: ElementRef<HTMLInputElement>;
   /* #endregion */
 
-  constructor(private us: UploadService) {}
+  constructor(private us: UploadService, private tm: TasksManager) {}
 
   /* #region  Hook Methods */
   ngOnInit(): void {
@@ -42,7 +45,7 @@ export class FileUploaderComponent implements OnInit {
       this.config = new FileUploaderConfig();
     }
     this.status = UploadStatus.NotStarted;
-    this.tasks = this.us.tasks;
+    this.tasks = this.tm.tasks;
     this.fileInput = new FormControl(null, {
       validators: [RxwebValidators.required(), RxwebValidators.extension({ extensions: this.config?.extensions })],
     });
@@ -52,39 +55,80 @@ export class FileUploaderComponent implements OnInit {
 
   /* #region  Event Handlers */
   onFileInputChanged(): void {
-    const files: FileList | null = this.imgInputRef.nativeElement.files;
-    if (files) this.us.createTasks(files);
-    this.imgInputRef.nativeElement.files = this.us.files;
-    this.fileInput.setValue(this.us.files);
+    const files: FileList | null = this.fileInputRef.nativeElement.files;
+    if (files == null) return;
+
+    for (let i = 0; i < files.length; i++) {
+      const file: File | null = files.item(i);
+      if (file) {
+        const task: Task = {
+          id: file.name,
+          file: file,
+        };
+        if (!this.tm.tasks.find((value) => task.id == value.id)) this.tm.addTask(task);
+      }
+    }
+    this.updateFileInputForm(this.tm.tasks);
   }
 
   onRemoveBtnClicked(id: string): void {
-    this.us.removeTask(id);
-    this.imgInputRef.nativeElement.files = this.us.files;
-    this.fileInput.setValue(this.us.files);
+    this.tm.removeTask(id);
     if (this.tasks.length == 0) {
       this.status = UploadStatus.NotStarted;
     }
+    this.updateFileInputForm(this.tm.tasks);
   }
 
   onUploadBtnClicked(): void {
     this.status = UploadStatus.Started;
-    this.us
-      .uploadAll(this.config?.rootPath)
-      .pipe(take(1))
-      .subscribe({
-        complete: () => {
+
+    const progressArr: Observable<number | undefined>[] = [];
+    this.tm.tasks.forEach((task) => {
+      const uploadTaskRef = this.us.uploadFile("/test", task.file);
+
+      task.progress = uploadTaskRef.uploadTask.percentageChanges();
+      progressArr.push(task.progress);
+
+      uploadTaskRef.uploadTask
+        .snapshotChanges()
+        .pipe(
+          takeLast(1),
+          finalize(() => {
+            task.downloadUrl = uploadTaskRef.storageRef?.getDownloadURL();
+          })
+        )
+        .subscribe();
+    });
+
+    forkJoin(progressArr)
+      .pipe(
+        take(1),
+        finalize(() => {
           this.status = UploadStatus.Completed;
-          this.uploadComplete.emit(this.tasks);
-        },
-      });
+          this.uploadComplete.emit(this.tm.tasks);
+        })
+      )
+      .subscribe();
   }
 
   onClearBtnClicked(): void {
     this.status = UploadStatus.NotStarted;
-    this.fileInput.setValue(null);
-    this.imgInputRef.nativeElement.value = "";
-    this.us.removeAll();
+    this.tm.clearTasks();
+    this.updateFileInputForm(this.tm.tasks);
+  }
+  /* #endregion */
+
+  /* #region  Private Methods */
+  private updateFileInputForm(tasks: Task[]): void {
+    if (tasks.length > 0) {
+      let list = new DataTransfer();
+      tasks.forEach((task) => list.items.add(task.file));
+      this.fileInput.setValue(list.files);
+      this.fileInputRef.nativeElement.files = list.files;
+    } else {
+      this.fileInput.setValue(null);
+      this.fileInputRef.nativeElement.value = "";
+    }
   }
   /* #endregion */
 

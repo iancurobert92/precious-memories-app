@@ -1,6 +1,6 @@
 <input
   hidden
-  #imgInputRef
+  #fileInputRef
   [formControl]="fileInput"
   type="file"
   [multiple]="this.config?.multiple"
@@ -12,8 +12,8 @@
   <ng-container *ngFor="let task of tasks">
     <ir-task
       [name]="task.file!.name"
-      [progress]="task.progress || 0"
-      [downloadUrl]="task.downloadUrl"
+      [progress]="(task.progress | async) || 0"
+      [downloadUrl]="(task.downloadUrl | async) || undefined"
       [size]="task.file!.size"
       [isActive]="isTaskActive"
       (remove)="onRemoveBtnClicked(task.file!.name)"
@@ -21,7 +21,7 @@
   </ng-container>
 </div>
 <div class="container m-0 mt-2 p-0 w-100 d-flex justify-content-center align-items-center">
-  <button [disabled]="!isAddButtonEnabled" mat-raised-button color="primary" (click)="imgInputRef.click()">
+  <button [disabled]="!isAddButtonEnabled" mat-raised-button color="primary" (click)="fileInputRef.click()">
     Add<mat-icon class="ml-2">add</mat-icon>
   </button>
   <button
