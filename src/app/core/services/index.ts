@@ -1,1 +1,2 @@
-export * from './album/album.service';
+export * from "./photo/photo.service";
+export * from "./web-request/web-request.service";

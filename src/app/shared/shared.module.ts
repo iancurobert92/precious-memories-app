@@ -1,21 +1,22 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatMenuModule } from '@angular/material/menu';
-import { RouterModule } from '@angular/router';
-import { FileUploaderModule } from '@libs/file-uploader/file-uploader.module';
-import { NotificationDialogComponent } from './notification-dialog/notification-dialog.component';
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatGridListModule } from "@angular/material/grid-list";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { RouterModule } from "@angular/router";
+import { FileUploaderComponent, UploadStatusDialogComponent } from "./components";
+import { MediaTypePipe } from "./pipes";
 
 @NgModule({
-  declarations: [NotificationDialogComponent],
+  declarations: [FileUploaderComponent, UploadStatusDialogComponent, MediaTypePipe],
   imports: [
     CommonModule,
     RouterModule,
@@ -28,8 +29,8 @@ import { NotificationDialogComponent } from './notification-dialog/notification-
     MatFormFieldModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressBarModule,
     ReactiveFormsModule,
-    FileUploaderModule,
   ],
   exports: [
     CommonModule,
@@ -43,9 +44,12 @@ import { NotificationDialogComponent } from './notification-dialog/notification-
     MatFormFieldModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressBarModule,
     ReactiveFormsModule,
-    FileUploaderModule,
-    NotificationDialogComponent,
+
+    FileUploaderComponent,
+    UploadStatusDialogComponent,
+    MediaTypePipe,
   ],
 })
 export class SharedModule {}

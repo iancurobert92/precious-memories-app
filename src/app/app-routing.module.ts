@@ -1,20 +1,21 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { AlbumComponent } from "@pages/album/album.component";
+import { AlbumsComponent } from "@pages/albums/albums.component";
+import { PhotosComponent } from "@pages/photos/photos.component";
 
 const routes: Routes = [
   {
-    path: 'photos',
-    loadChildren: () =>
-      import('@features/photo-albums/photo-albums.module').then(
-        (m) => m.PhotoAlbumsModule
-      ),
+    path: "",
+    component: PhotosComponent,
   },
   {
-    path: 'photos/:albumId',
-    loadChildren: () =>
-      import('@features/photo-album/photo-album.module').then(
-        (m) => m.PhotoAlbumModule
-      ),
+    path: "albums",
+    component: AlbumsComponent,
+  },
+  {
+    path: "albums/:albumId",
+    component: AlbumComponent,
   },
 ];
 
