@@ -1,5 +1,5 @@
 <div class="gallery">
-  <ng-container *ngFor="let photo of photos">
+  <ng-container *ngFor="let photo of photos$ | async">
     <div class="gallery-item">
       <div class="gallery-item__header">
         <button id="btn-remove" mat-mini-fab color="warn" (click)="onRemoveBtnClick(photo)">
