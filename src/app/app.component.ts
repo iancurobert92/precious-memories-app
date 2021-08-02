@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { Photo } from "@core/models";
 import { PhotoService } from "@core/services";
-import { UploadStatusDialogComponent } from "@shared/components";
+import { UploadStatusComponent } from "@shared/components";
 import { UploadStatus } from "@shared/enums";
 import { Uploader } from "@shared/services";
 import { Subject } from "rxjs";
@@ -16,7 +16,7 @@ import { takeLast, takeUntil } from "rxjs/operators";
 export class AppComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private uploader: Uploader, private ps: PhotoService, private dialog: MatDialog) {}
+  constructor(private uploader: Uploader, private ps: PhotoService, private snackbar: MatSnackBar) {}
 
   ngOnInit(): void {
     //Add a new photo to the database
@@ -45,7 +45,6 @@ export class AppComponent implements OnInit, OnDestroy {
       });
 
     //Display the upload progress/loading animation
-    let dialogRef: MatDialogRef<UploadStatusDialogComponent>;
     this.uploader
       .getUploadStatus()
       .pipe(takeUntil(this.destroy$))
@@ -53,13 +52,14 @@ export class AppComponent implements OnInit, OnDestroy {
         next: (status) => {
           switch (status) {
             case UploadStatus.Uploading:
-              dialogRef = this.dialog.open(UploadStatusDialogComponent, { width: "300px", disableClose: true });
+              this.snackbar.openFromComponent(UploadStatusComponent, {
+                horizontalPosition: "start",
+                verticalPosition: "bottom",
+              });
               break;
             case UploadStatus.Error:
-              //display an error message
-              break;
             case UploadStatus.Complete:
-              if (dialogRef) dialogRef.close();
+              this.snackbar.dismiss();
               break;
           }
         },

@@ -11,16 +11,18 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { RouterModule } from "@angular/router";
-import { FileUploaderComponent, UploadStatusDialogComponent } from "./components";
+import { FileUploaderComponent, UploadStatusComponent } from "./components";
 import { MediaTypePipe } from "./pipes";
 
 @NgModule({
-  declarations: [FileUploaderComponent, UploadStatusDialogComponent, MediaTypePipe],
+  declarations: [FileUploaderComponent, UploadStatusComponent, MediaTypePipe],
   imports: [
     CommonModule,
     RouterModule,
     MatDialogModule,
+    MatSnackBarModule,
     MatGridListModule,
     MatCardModule,
     MatIconModule,
@@ -36,6 +38,7 @@ import { MediaTypePipe } from "./pipes";
     CommonModule,
     RouterModule,
     MatDialogModule,
+    MatSnackBarModule,
     MatGridListModule,
     MatCardModule,
     MatIconModule,
@@ -48,7 +51,7 @@ import { MediaTypePipe } from "./pipes";
     ReactiveFormsModule,
 
     FileUploaderComponent,
-    UploadStatusDialogComponent,
+    UploadStatusComponent,
     MediaTypePipe,
   ],
 })
