@@ -1,2 +1,1 @@
-export * from "./photo/photo.service";
-export * from "./web-request/web-request.service";
+export * from "./api.service";

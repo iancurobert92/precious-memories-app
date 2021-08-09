@@ -6,8 +6,10 @@
     "outDir": "./dist/out-tsc",
     "paths": {
       "@core/*": ["src/app/core/*"],
+      "@root/*": ["src/app/root/*"],
       "@shared/*": ["src/app/shared/*"],
-      "@pages/*": ["src/app/pages/*"]
+      "@features/*": ["src/app/features/*"],
+      "@modules/*": ["src/app/modules/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "strict": true,

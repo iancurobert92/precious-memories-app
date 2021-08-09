@@ -1,0 +1,4 @@
+<div class="w-100 h-100" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+  <app-media-actions (remove)="onRemove()"></app-media-actions>
+  <img class="fit-cover" [src]="data?.url" />
+</div>

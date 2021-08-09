@@ -1,1 +1,1 @@
-export * from "./photo";
+export * from './media-item-data';

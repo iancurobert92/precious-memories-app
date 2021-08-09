@@ -1,0 +1,13 @@
+.toolbar {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  z-index: 1;
+  transition: opacity 0.1s ease-out;
+  opacity: 0;
+}
+
+.show {
+  transition: opacity 0.1s ease-in;
+  opacity: 1;
+}

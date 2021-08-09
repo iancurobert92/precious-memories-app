@@ -1,58 +1,14 @@
-import { CommonModule } from "@angular/common";
-import { NgModule } from "@angular/core";
-import { ReactiveFormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatDialogModule } from "@angular/material/dialog";
-import { MatDividerModule } from "@angular/material/divider";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatGridListModule } from "@angular/material/grid-list";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatMenuModule } from "@angular/material/menu";
-import { MatProgressBarModule } from "@angular/material/progress-bar";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { RouterModule } from "@angular/router";
-import { FileUploaderComponent, UploadStatusComponent } from "./components";
-import { MediaTypePipe } from "./pipes";
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterModule } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
-  declarations: [FileUploaderComponent, UploadStatusComponent, MediaTypePipe],
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatDialogModule,
-    MatSnackBarModule,
-    MatGridListModule,
-    MatCardModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatMenuModule,
-    MatProgressBarModule,
-    ReactiveFormsModule,
-  ],
-  exports: [
-    CommonModule,
-    RouterModule,
-    MatDialogModule,
-    MatSnackBarModule,
-    MatGridListModule,
-    MatCardModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatMenuModule,
-    MatProgressBarModule,
-    ReactiveFormsModule,
-
-    FileUploaderComponent,
-    UploadStatusComponent,
-    MediaTypePipe,
-  ],
+  declarations: [],
+  imports: [CommonModule, MatIconModule, MatButtonModule, MatCardModule],
+  exports: [CommonModule, RouterModule, MatSnackBarModule, MatIconModule, MatButtonModule, MatCardModule],
 })
 export class SharedModule {}

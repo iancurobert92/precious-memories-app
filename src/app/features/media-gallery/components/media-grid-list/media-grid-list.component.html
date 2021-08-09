@@ -1,0 +1,20 @@
+<ng-container *ngIf="data && data.length > 0; else noDataTemplate">
+  <mat-grid-list cols="4" rowHeight="4:3">
+    <mat-grid-tile *ngFor="let item of data">
+      <app-media-image
+        *ngIf="item.url | mediaType: 'image'"
+        class="w-100 h-100 p-1"
+        [data]="item"
+        (remove)="onRemove(item)"
+      ></app-media-image>
+      <app-media-video
+        *ngIf="item.url | mediaType: 'video'"
+        class="w-100 h-100 p-1"
+        [data]="item"
+        (remove)="onRemove(item)"
+      ></app-media-video>
+    </mat-grid-tile>
+  </mat-grid-list>
+</ng-container>
+
+<ng-template #noDataTemplate> There is no data! </ng-template>
