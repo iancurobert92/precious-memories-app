@@ -1,11 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MediaGalleryComponent } from './pages';
+import { AuthGuard } from '@core/guards';
+import { AlbumsComponent, MediaGalleryComponent } from './pages';
 
 const routes: Routes = [
   {
     path: '',
     component: MediaGalleryComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'albums',
+    component: AlbumsComponent,
+    canActivate: [AuthGuard],
   },
 ];
 

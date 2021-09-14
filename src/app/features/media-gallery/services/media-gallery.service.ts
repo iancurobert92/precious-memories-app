@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { MediaItemData } from '@core/models';
-import { MediaService } from '@core/services/media.service';
+import { MediaItem } from '@core/models';
+import { MediaService } from '@core/services';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +12,11 @@ export class MediaGalleryService {
     return this.ms.getMediaItems();
   }
 
-  createMediaItem(item: MediaItemData) {
+  createMediaItem(item: MediaItem) {
     return this.ms.createMediaItem(item);
   }
 
-  deleteMediaItem(item: MediaItemData) {
+  deleteMediaItem(item: MediaItem) {
     return this.ms.deleteMediaItem(item);
   }
 }

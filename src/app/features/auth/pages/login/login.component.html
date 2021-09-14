@@ -1,0 +1,26 @@
+<div class="container h-100" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Log in</mat-card-title>
+    </mat-card-header>
+
+    <form class="auth-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-card-content>
+        <mat-form-field class="w-100">
+          <input matInput placeholder="Email" formControlName="email" required />
+          <mat-error *ngIf="form.controls.email.errors?.required">Email required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="w-100">
+          <input matInput placeholder="Password" formControlName="password" type="password" required />
+          <mat-error *ngIf="form.controls.password.errors?.required">Password required</mat-error>
+        </mat-form-field>
+      </mat-card-content>
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <button mat-stroked-button color="accent" type="submit" class="w-100">Log in</button>
+        <a class="w-100 text-center" [routerLink]="['/registration']">Sign up</a>
+      </div>
+    </form>
+  </mat-card>
+</div>

@@ -1,0 +1,51 @@
+.sidebar {
+  width: 100%;
+  height: 100%;
+  padding: 15px 25px;
+
+  &__section {
+    grid-area: section;
+  }
+}
+
+.section {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  grid-template-areas: 'title' 'nav';
+
+  &__title {
+    grid-area: title;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  &__nav {
+    grid-area: nav;
+  }
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    margin-bottom: 5px;
+
+    &:hover {
+      background-color: rgba(128, 128, 128, 0.11);
+    }
+  }
+
+  &__label {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}

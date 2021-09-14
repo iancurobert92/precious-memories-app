@@ -24,12 +24,8 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
   constructor(private fus: FileUploaderService) {}
 
   ngOnInit(): void {
-    this.config = {
-      extensions: [],
-    };
-
     this.inputControl = new FormControl('', {
-      validators: [RxwebValidators.extension({ extensions: this.config?.extensions })],
+      validators: [RxwebValidators.extension({ extensions: this.config?.extensions || [] })],
     });
 
     this.fus.setUploadStatus(UploadStatus.Default);
@@ -51,7 +47,7 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
       for (let i = 0; i < files.length; i++) {
         const file: File | null = files.item(i);
         if (file) {
-          const data: UploadData = this.fus.upload(file);
+          const data: UploadData = this.fus.upload(file, this.config?.basePath || '');
           this.fus.setUploadData(data);
           if (i == files.length - 1)
             data.progress$

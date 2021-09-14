@@ -1,0 +1,23 @@
+@import '../../../../vars.scss';
+
+.app-layout {
+  display: grid;
+  height: calc(100% - #{$header-height});
+  grid-template-columns: $sidebar-width 1fr;
+  grid-template-rows: $header-height 100%;
+  grid-template-areas:
+    'header header'
+    'sidebar content';
+
+  &__header {
+    grid-area: header;
+  }
+
+  &__sidebar {
+    grid-area: sidebar;
+  }
+
+  &__content {
+    grid-area: content;
+  }
+}

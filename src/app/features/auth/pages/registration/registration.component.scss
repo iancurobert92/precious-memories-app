@@ -1,0 +1,21 @@
+.container .auth-form {
+  min-width: 100%;
+  max-width: 300px;
+  width: 100%;
+}
+
+.container mat-card-header {
+  text-align: center;
+  width: 100%;
+  display: block;
+  font-weight: 700;
+}
+
+.container mat-card-header mat-card-title {
+  font-size: 30px;
+  margin: 10px;
+}
+
+.container .mat-card {
+  padding: 40px 50px 40px 50px;
+}

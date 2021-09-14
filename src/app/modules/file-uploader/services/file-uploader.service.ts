@@ -1,24 +1,22 @@
-import { Injectable } from "@angular/core";
-import { AngularFireStorage, AngularFireUploadTask } from "@angular/fire/storage";
-import { BehaviorSubject, from, Observable, Subject } from "rxjs";
-import { switchMap } from "rxjs/operators";
-import { UploadStatus } from "../enums";
-import { UploadData } from "../models";
+import { Injectable } from '@angular/core';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { UploadStatus } from '../enums';
+import { UploadData } from '../models';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class FileUploaderService {
   private status: BehaviorSubject<UploadStatus> = new BehaviorSubject<UploadStatus>(UploadStatus.Default);
   private uploadData: Subject<UploadData> = new Subject<UploadData>();
 
-  private basePath: string = "/uploads";
-
   constructor(private storage: AngularFireStorage) {}
 
-  upload(file: File): UploadData {
+  upload(file: File, basePath: string): UploadData {
     const fileName: string = `${new Date().getTime()}_${file.name}`;
-    const path: string = `${this.basePath}/${fileName}`;
+    const path: string = `${basePath}/${fileName}`;
     const task: AngularFireUploadTask = this.storage.upload(path, file);
 
     return {
@@ -29,8 +27,8 @@ export class FileUploaderService {
     };
   }
 
-  delete(name: string): void {
-    this.storage.ref(this.basePath).child(name).delete();
+  delete(url: string): void {
+    this.storage.refFromURL(url).delete();
   }
 
   setUploadData(value: UploadData): void {

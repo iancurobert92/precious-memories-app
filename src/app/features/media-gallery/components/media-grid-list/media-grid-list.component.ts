@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MediaItemData } from '@core/models';
+import { MediaItem } from '@core/models';
 
 @Component({
   selector: 'app-media-grid-list',
@@ -7,10 +7,10 @@ import { MediaItemData } from '@core/models';
   styleUrls: ['./media-grid-list.component.scss'],
 })
 export class MediaGridListComponent {
-  @Input() data?: MediaItemData[] | null;
-  @Output() remove: EventEmitter<MediaItemData> = new EventEmitter<MediaItemData>();
+  @Input() data?: MediaItem[] | null;
+  @Output() remove: EventEmitter<MediaItem> = new EventEmitter<MediaItem>();
 
-  onRemove(item: MediaItemData): void {
+  onRemove(item: MediaItem): void {
     this.remove.emit(item);
   }
 }

@@ -1,7 +1,5 @@
-export interface MediaItemData {
-  description?: string;
+export interface MediaItem {
   id: string;
-  name: string;
   storageLink: string;
   uploadDate: string;
   url: string;

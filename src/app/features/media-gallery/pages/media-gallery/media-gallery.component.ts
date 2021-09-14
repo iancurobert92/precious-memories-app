@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MediaItemData } from '@core/models';
+import { MediaItem } from '@core/models';
 import { MediaGalleryService } from '@features/media-gallery/services';
 import { Observable } from 'rxjs';
 
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./media-gallery.component.scss'],
 })
 export class MediaGalleryComponent implements OnInit {
-  mediaItems$?: Observable<MediaItemData[]>;
+  mediaItems$?: Observable<MediaItem[]>;
 
   constructor(private mgs: MediaGalleryService) {}
 
@@ -17,7 +17,7 @@ export class MediaGalleryComponent implements OnInit {
     this.mediaItems$ = this.mgs.getMediaItems();
   }
 
-  onRemove(data: MediaItemData): void {
+  onRemove(data: MediaItem): void {
     this.mgs.deleteMediaItem(data);
   }
 }

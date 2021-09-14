@@ -16,6 +16,6 @@ import { MediaTypePipe } from './pipes';
     MediaVideoComponent,
     MediaImageComponent,
   ],
-  imports: [CommonModule, MediaGalleryRoutingModule, SharedModule, MatGridListModule],
+  imports: [MediaGalleryRoutingModule, SharedModule, MatGridListModule],
 })
 export class MediaGalleryModule {}
