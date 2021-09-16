@@ -6,17 +6,17 @@ import { MediaService } from '@core/services';
   providedIn: 'root',
 })
 export class MediaGalleryService {
-  constructor(private ms: MediaService) {}
+  constructor(private mediaService: MediaService) {}
 
-  getMediaItems() {
-    return this.ms.getMediaItems();
+  getMediaItems(uid: string) {
+    return this.mediaService.getMediaItems(uid);
   }
 
-  createMediaItem(item: MediaItem) {
-    return this.ms.createMediaItem(item);
+  createMediaItem(item: MediaItem, uid: string) {
+    return this.mediaService.createMediaItem(item, uid);
   }
 
-  deleteMediaItem(item: MediaItem) {
-    return this.ms.deleteMediaItem(item);
+  deleteMediaItem(item: MediaItem, uid: string) {
+    return this.mediaService.deleteMediaItem(item, uid);
   }
 }

@@ -1,1 +1,2 @@
-export * from './media-item';
+export * from './media-item.model';
+export * from './user.model';

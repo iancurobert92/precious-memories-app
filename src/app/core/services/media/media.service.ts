@@ -10,33 +10,23 @@ import { map } from 'rxjs/operators';
 export class MediaService {
   constructor(private af: AngularFirestore, private fus: FileUploaderService) {}
 
-  getMediaItems() {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
+  getMediaItems(uid: string) {
     return this.af
       .collection('users')
-      .doc(user?.uid)
+      .doc(uid)
       .collection('media')
       .snapshotChanges()
       .pipe(
         map((value) => {
-          return value
-            .map((data) => data.payload.doc.data() as MediaItem)
-            .sort((a, b) => {
-              const aUploadTime = new Date(a.uploadDate).getTime();
-              const bUploadTime = new Date(b.uploadDate).getTime();
-              if (aUploadTime > bUploadTime) return 1;
-              if (aUploadTime < bUploadTime) return -1;
-              return 0;
-            });
+          return value.map((data) => data.payload.doc.data() as MediaItem);
         })
       );
   }
 
-  createMediaItem(item: MediaItem) {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
+  createMediaItem(item: MediaItem, uid: string) {
     return this.af
       .collection('users')
-      .doc(user?.uid)
+      .doc(uid)
       .collection('media')
       .add(item)
       .then((docRef) => {
@@ -44,11 +34,10 @@ export class MediaService {
       });
   }
 
-  deleteMediaItem(item: MediaItem) {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
+  deleteMediaItem(item: MediaItem, uid: string) {
     return this.af
       .collection('users')
-      .doc(user?.uid)
+      .doc(uid)
       .collection('media')
       .doc(item.id)
       .delete()

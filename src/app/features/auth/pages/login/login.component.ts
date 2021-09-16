@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '@core/services';
+import { Router } from '@angular/router';
+import { SignIn } from '@core/actions';
+import { Dispatch } from '@ngxs-labs/dispatch-decorator';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +13,7 @@ export class LoginComponent implements OnInit {
   form!: FormGroup;
   submited: boolean = false;
 
-  constructor(private as: AuthService, private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -22,6 +24,11 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     this.submited = true;
-    this.as.signIn(this.form.controls.email.value, this.form.controls.password.value);
+    this.signIn(this.form.controls.email.value, this.form.controls.password.value);
+  }
+
+  @Dispatch()
+  signIn(username: string, password: string) {
+    return new SignIn({ username: username, password: password });
   }
 }

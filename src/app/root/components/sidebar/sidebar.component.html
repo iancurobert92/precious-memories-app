@@ -1,13 +1,17 @@
 <div class="sidebar">
-  <div class="sidebar__section section">
-    <h3 class="section__title">Section Title</h3>
-    <div class="section__nav nav">
-      <a class="nav__item" routerLink="">
+  <dl class="nav">
+    <dt>Library</dt>
+    <dd class="m-2">
+      <a class="nav__item" routerLink="photos">
+        <mat-icon>photo</mat-icon>
         <p class="nav__label">Photos</p>
       </a>
+    </dd>
+    <dd class="m-2">
       <a class="nav__item" routerLink="albums">
+        <mat-icon>photo_album</mat-icon>
         <p class="nav__label">Albums</p>
       </a>
-    </div>
-  </div>
+    </dd>
+  </dl>
 </div>

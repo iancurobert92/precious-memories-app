@@ -6,6 +6,7 @@
   grid-template-columns: $sidebar-width 1fr auto;
   grid-template-rows: 1fr;
   border-bottom: 1px solid $border-color;
+  background-color: #f4f4f4;
 
   &__brand {
     grid-column: 1/2;
@@ -20,7 +21,6 @@
 
 .brand {
   display: flex;
-  flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   padding-left: 25px;
@@ -41,10 +41,15 @@
     color: black;
     text-decoration: none;
     padding: 10px;
+    font-size: 24px;
   }
 
   &__item-disabled {
     pointer-events: none;
     color: grey;
+  }
+
+  a {
+    display: flex;
   }
 }

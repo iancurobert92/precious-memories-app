@@ -1,12 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MediaItem } from '@core/models';
-import { AuthService, MediaService } from '@core/services';
+import { SignOut } from '@core/actions';
+import { MediaItem, User } from '@core/models';
+import { MediaService } from '@core/services';
+import { AuthState, AuthStateModel } from '@core/states';
 import { UploadStatusComponent } from '@modules/file-uploader/components';
 import { UploadStatus } from '@modules/file-uploader/enums';
 import { FileUploaderConfig } from '@modules/file-uploader/models';
 import { FileUploaderService } from '@modules/file-uploader/services';
-import { Subject } from 'rxjs';
+import { Dispatch } from '@ngxs-labs/dispatch-decorator';
+import { Select, Store } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
 import { takeLast, takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -20,8 +24,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   fileUploaderConfig!: FileUploaderConfig;
 
   constructor(
+    private store: Store,
     private ms: MediaService,
-    private as: AuthService,
     private fus: FileUploaderService,
     private snackbar: MatSnackBar
   ) {}
@@ -29,7 +33,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.fileUploaderConfig = {
       extensions: ['.png', '.jpg', '.jpeg'],
-      basePath: `/uploads/${JSON.parse(localStorage.getItem('user')!).uid}`,
+      basePath: `/uploads/${this.store.selectSnapshot(AuthState.user)?.id}`,
     };
 
     //Add a new photo to the database
@@ -38,14 +42,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {
-          var today = new Date();
-          var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-          var time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
-          var dateTime = date + ' ' + time;
-
           let photo: MediaItem = {
             id: '',
-            uploadDate: dateTime,
+            dateCreated: new Date(data.file.lastModified).toDateString(),
             storageLink: data.storageLink,
             url: '',
           };
@@ -54,7 +53,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               if (url) photo.url = url;
             },
             complete: () => {
-              this.ms.createMediaItem(photo);
+              this.ms.createMediaItem(photo, this.store.selectSnapshot(AuthState.user)?.id!);
             },
           });
         },
@@ -87,7 +86,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  logOut(): void {
-    this.as.signOut();
+  @Dispatch()
+  logOut() {
+    return new SignOut();
   }
 }

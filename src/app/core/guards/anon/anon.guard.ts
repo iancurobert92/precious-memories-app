@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate } from '@angular/router';
 import { AuthState } from '@core/states';
 import { Navigate } from '@ngxs/router-plugin';
 import { Store } from '@ngxs/store';
@@ -7,14 +7,13 @@ import { Store } from '@ngxs/store';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class AnonGuard implements CanActivate {
   constructor(private store: Store) {}
-
-  canActivate(): boolean {
-    if (this.store.selectSnapshot(AuthState.isAuthenticated)) {
+  canActivate() {
+    if (!this.store.selectSnapshot(AuthState.isAuthenticated)) {
       return true;
     }
-    this.store.dispatch(new Navigate(['login']));
+    this.store.dispatch(new Navigate(['']));
     return false;
   }
 }

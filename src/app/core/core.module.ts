@@ -6,8 +6,7 @@ import { FileUploaderModule } from '@modules/file-uploader/file-uploader.module'
 import { FileUploaderService } from '@modules/file-uploader/services';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from 'src/environments/environment';
-import { AuthGuard } from './guards';
-import { AuthService } from './services';
+import { AnonGuard, AuthGuard } from './guards';
 
 @NgModule({
   declarations: [],
@@ -19,6 +18,6 @@ import { AuthService } from './services';
     FileUploaderModule,
   ],
   exports: [NgbModule, FileUploaderModule],
-  providers: [AuthGuard, AuthService, FileUploaderService],
+  providers: [AuthGuard, AnonGuard, FileUploaderService],
 })
 export class CoreModule {}

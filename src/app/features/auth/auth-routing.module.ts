@@ -12,6 +12,11 @@ const routes: Routes = [
     path: 'registration',
     component: RegistrationComponent,
   },
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({

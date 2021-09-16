@@ -1,5 +1,4 @@
 <div class="w-100 h-100" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
-  <app-media-actions (remove)="onRemove()"></app-media-actions>
   <video #videoRef class="fit-cover" (timeupdate)="onTimeUpdate()">
     <source [src]="data?.url" />
   </video>

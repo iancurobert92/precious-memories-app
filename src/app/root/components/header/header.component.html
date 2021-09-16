@@ -1,18 +1,18 @@
 <div class="header">
   <app-file-uploader #fileUploader hidden [config]="fileUploaderConfig"></app-file-uploader>
-  <div class="header__brand brand">Logo</div>
+  <div class="header__brand brand"><h2 class="m-0">Media</h2></div>
   <ul class="header__menu menu">
     <li class="menu__item">
-      <a (click)="fileUploader.click()"><mat-icon>upload</mat-icon></a>
+      <a title="Upload photos" (click)="fileUploader.click()"><mat-icon [inline]="true">upload</mat-icon></a>
     </li>
     <li class="menu__item" [ngClass]="{ 'menu__item-disabled': true }">
-      <a disab><mat-icon>download</mat-icon></a>
+      <a title="Download selected item"><mat-icon [inline]="true">download</mat-icon></a>
     </li>
     <li class="menu__item" [ngClass]="{ 'menu__item-disabled': true }">
-      <a><mat-icon>delete</mat-icon></a>
+      <a title="Delete"><mat-icon [inline]="true">delete</mat-icon></a>
     </li>
     <li class="menu__item ml-4">
-      <a (click)="logOut()"><mat-icon>logout</mat-icon></a>
+      <a title="Log Out" (click)="logOut()"><mat-icon [inline]="true">logout</mat-icon></a>
     </li>
   </ul>
 </div>
