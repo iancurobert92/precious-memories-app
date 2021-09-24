@@ -1,3 +1,4 @@
-<div class="w-100 h-100" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+<div class="w-100 h-100" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()" (click)="onClick()">
+  <div class="highlight-frame" *ngIf="selected"></div>
   <img class="fit-cover" [src]="data?.url" />
 </div>

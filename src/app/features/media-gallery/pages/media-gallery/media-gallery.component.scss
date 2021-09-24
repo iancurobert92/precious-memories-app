@@ -1,9 +1,79 @@
-.example-card {
-  width: 250px;
-  height: 250px;
+@import '../../../../../vars.scss';
+
+$page-header-height: 70px;
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 10px 15px;
+
+  .page-header {
+    width: 100%;
+    height: $page-header-height;
+
+    .top-row {
+      display: block;
+    }
+
+    .bottom-row {
+      display: block;
+    }
+
+    .page-header-content {
+      display: block;
+      border-bottom: 1px solid $border-color;
+    }
+  }
+
+  .page-content {
+    position: relative;
+    width: 100%;
+    height: calc(100% - #{$page-header-height});
+  }
 }
 
-.example-header-image {
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-  background-size: cover;
+.vertical-scroll-pane {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.vertical-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.list-item {
+  display: block;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  &:not(:first-child) {
+    border-top: 1px solid $border-color;
+  }
+}
+
+.media-collection {
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    display: flex;
+  }
+
+  &__title {
+    display: block;
+  }
+
+  &__subtitle {
+    display: block;
+    margin-left: 0.2rem;
+  }
+
+  &__content {
+    display: block;
+    margin-top: 10px;
+  }
 }

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MediaItem } from '@core/models';
+import { MediaItemComponent } from '../media-item/media-item.component';
 
 @Component({
   selector: 'app-media-grid-list',
@@ -8,9 +9,9 @@ import { MediaItem } from '@core/models';
 })
 export class MediaGridListComponent {
   @Input() data?: MediaItem[] | null;
-  @Output() remove: EventEmitter<MediaItem> = new EventEmitter<MediaItem>();
+  @Output() onselect: EventEmitter<MediaItemComponent> = new EventEmitter<MediaItemComponent>();
 
-  onRemove(item: MediaItem): void {
-    this.remove.emit(item);
+  onSelect(item: MediaItemComponent): void {
+    this.onselect.emit(item);
   }
 }

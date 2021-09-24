@@ -1,30 +1,28 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreDocument,
+  DocumentData,
+  DocumentReference,
+  QuerySnapshot,
+} from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { MediaItem } from '@core/models';
-import { FileUploaderService } from '@modules/file-uploader/services';
-import { map } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { map, take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MediaService {
-  constructor(private af: AngularFirestore, private fus: FileUploaderService) {}
+  constructor(private db: AngularFirestore, private storage: AngularFireStorage) {}
 
-  getMediaItems(uid: string) {
-    return this.af
-      .collection('users')
-      .doc(uid)
-      .collection('media')
-      .snapshotChanges()
-      .pipe(
-        map((value) => {
-          return value.map((data) => data.payload.doc.data() as MediaItem);
-        })
-      );
+  fetchMedia(uid: string): Observable<MediaItem[]> {
+    return this.db.collection('users').doc(uid).collection('media').valueChanges() as Observable<MediaItem[]>;
   }
 
-  createMediaItem(item: MediaItem, uid: string) {
-    return this.af
+  addMedia(item: MediaItem, uid: string) {
+    return this.db
       .collection('users')
       .doc(uid)
       .collection('media')
@@ -34,15 +32,15 @@ export class MediaService {
       });
   }
 
-  deleteMediaItem(item: MediaItem, uid: string) {
-    return this.af
+  deleteMedia(item: MediaItem, uid: string) {
+    return this.db
       .collection('users')
       .doc(uid)
       .collection('media')
       .doc(item.id)
       .delete()
       .then(() => {
-        this.fus.delete(item.url);
+        this.storage.refFromURL(item.url).delete();
       });
   }
 }

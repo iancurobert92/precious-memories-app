@@ -21,14 +21,14 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private fus: FileUploaderService) {}
+  constructor(private uploadService: FileUploaderService) {}
 
   ngOnInit(): void {
     this.inputControl = new FormControl('', {
       validators: [RxwebValidators.extension({ extensions: this.config?.extensions || [] })],
     });
 
-    this.fus.setUploadStatus(UploadStatus.Default);
+    this.uploadService.setUploadStatus(UploadStatus.Default);
   }
 
   ngOnDestroy(): void {
@@ -41,14 +41,14 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
     if (!files) return;
     if (files.length == 0) return;
 
-    this.fus.setUploadStatus(UploadStatus.Uploading);
+    this.uploadService.setUploadStatus(UploadStatus.Uploading);
 
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
         const file: File | null = files.item(i);
         if (file) {
-          const data: UploadData = this.fus.upload(file, this.config?.basePath || '');
-          this.fus.setUploadData(data);
+          const data: UploadData = this.uploadService.upload(file, this.config?.basePath || '');
+          this.uploadService.setUploadData(data);
           if (i == files.length - 1)
             data.progress$
               .pipe(
@@ -59,8 +59,8 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
                 })
               )
               .subscribe({
-                error: () => this.fus.setUploadStatus(UploadStatus.Error),
-                complete: () => this.fus.setUploadStatus(UploadStatus.Complete),
+                error: () => this.uploadService.setUploadStatus(UploadStatus.Error),
+                complete: () => this.uploadService.setUploadStatus(UploadStatus.Complete),
               });
         }
       }

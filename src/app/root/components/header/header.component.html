@@ -5,14 +5,14 @@
     <li class="menu__item">
       <a title="Upload photos" (click)="fileUploader.click()"><mat-icon [inline]="true">upload</mat-icon></a>
     </li>
-    <li class="menu__item" [ngClass]="{ 'menu__item-disabled': true }">
+    <li class="menu__item" [ngClass]="{ 'menu__item-disabled': (selectedMediaItems$ | async)?.length == 0 }">
       <a title="Download selected item"><mat-icon [inline]="true">download</mat-icon></a>
     </li>
-    <li class="menu__item" [ngClass]="{ 'menu__item-disabled': true }">
-      <a title="Delete"><mat-icon [inline]="true">delete</mat-icon></a>
+    <li class="menu__item" [ngClass]="{ 'menu__item-disabled': (selectedMediaItems$ | async)?.length == 0 }">
+      <a title="Delete"><mat-icon [inline]="true" (click)="onDeleteBtnClick()">delete</mat-icon></a>
     </li>
     <li class="menu__item ml-4">
-      <a title="Log Out" (click)="logOut()"><mat-icon [inline]="true">logout</mat-icon></a>
+      <a title="Log Out" (click)="onSignOutBtnClick()"><mat-icon [inline]="true">logout</mat-icon></a>
     </li>
   </ul>
 </div>

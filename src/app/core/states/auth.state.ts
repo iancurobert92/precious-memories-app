@@ -36,7 +36,8 @@ export class AuthState {
     return this.authService
       .createUserWithEmailAndPassword(action.payload.username, action.payload.password)
       .then((res) => {
-        const user: User = { id: res.user?.uid };
+        if (!res.user) return;
+        const user: User = { id: res.user.uid };
         ctx.dispatch(new Navigate(['']));
         this.db.collection('users').doc(user.id).set(user);
       })
@@ -50,7 +51,8 @@ export class AuthState {
     return this.authService
       .signInWithEmailAndPassword(action.payload.username, action.payload.password)
       .then((res) => {
-        const user: User = { id: res.user?.uid };
+        if (!res.user) return;
+        const user: User = { id: res.user.uid };
         ctx.patchState({
           user: user,
         });

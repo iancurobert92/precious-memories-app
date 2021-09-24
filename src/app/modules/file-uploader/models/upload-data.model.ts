@@ -1,4 +1,3 @@
-import { AngularFireUploadTask } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 
 export interface UploadData {

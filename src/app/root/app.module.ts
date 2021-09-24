@@ -10,9 +10,9 @@ import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { SharedModule } from '@shared/shared.module';
+import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
-import { AppState } from './app.state';
 import { AppComponent } from './components';
 import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -28,15 +28,18 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
     SharedModule,
     NgbModule,
     BrowserAnimationsModule,
-    NgxsModule.forRoot([AppState, AuthState], {
+    NgxsModule.forRoot([AuthState], {
       developmentMode: !environment.production,
     }),
-    NgxsStoragePluginModule.forRoot(),
+    NgxsStoragePluginModule.forRoot({
+      key: ['auth'],
+    }),
     NgxsDispatchPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production,
     }),
     NgxsRouterPluginModule.forRoot(),
+    NgxsResetPluginModule.forRoot(),
   ],
   bootstrap: [AppComponent],
 })

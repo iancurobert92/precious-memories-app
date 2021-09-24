@@ -1,5 +1,3 @@
-import { User } from '@core/models';
-
 export class SignUp {
   static readonly type = '[Auth] SignUp';
   constructor(public payload: { username: string; password: string }) {}

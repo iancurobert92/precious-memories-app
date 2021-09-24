@@ -27,10 +27,6 @@ export class FileUploaderService {
     };
   }
 
-  delete(url: string): void {
-    this.storage.refFromURL(url).delete();
-  }
-
   setUploadData(value: UploadData): void {
     return this.uploadData.next(value);
   }

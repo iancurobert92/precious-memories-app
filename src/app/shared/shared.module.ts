@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [],
@@ -25,6 +26,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatCardModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    MatDividerModule,
   ],
 })
 export class SharedModule {}

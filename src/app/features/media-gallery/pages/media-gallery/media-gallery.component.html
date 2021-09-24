@@ -1,1 +1,29 @@
-<app-media-grid-list [data]="mediaItems$ | async" (remove)="onRemove($event)"></app-media-grid-list>
+<div class="page-wrapper">
+  <div class="page-header">
+    <div class="page-header-content">
+      <div class="top-row">
+        <span class="h2">April <span class="h4">2020 - </span>September <span class="h4">2021</span></span>
+      </div>
+      <div class="bottom-row" *ngIf="mediaItems$ | async as mediaItems">
+        <span>{{ mediaItems.length }} items</span>
+      </div>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="vertical-scroll-pane">
+      <div class="vertical-list">
+        <div class="list-item" *ngFor="let collection of collections">
+          <div class="media-collection">
+            <div class="media-collection__header">
+              <div class="media-collection__title" *ngIf="collection.location">{{ collection.location }},</div>
+              <div class="media-collection__subtitle">{{ collection.date }}</div>
+            </div>
+            <div class="media-collection__content">
+              <app-media-grid-list [data]="collection.media" (onselect)="onSelect($event)"></app-media-grid-list>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
