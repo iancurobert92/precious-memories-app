@@ -11,6 +11,6 @@ export class MediaSelectors {
 
   @Selector([MediaState])
   static selectedItems(state: MediaStateModel): MediaItem[] {
-    return state.selectedItems;
+    return state.items.filter((item: MediaItem) => item.selected);
   }
 }

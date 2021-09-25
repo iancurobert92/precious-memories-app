@@ -4,10 +4,16 @@
       <app-media-image
         *ngIf="item.url | mediaType: 'image'"
         class="w-100 h-100"
-        [data]="item"
-        (onselect)="onSelect($event)"
+        [selected]="item.selected"
+        [url]="item.url"
+        (click)="onClick(item)"
       ></app-media-image>
-      <app-media-video *ngIf="item.url | mediaType: 'video'" class="w-100 h-100 p-1" [data]="item"></app-media-video>
+      <app-media-video
+        *ngIf="item.url | mediaType: 'video'"
+        class="w-100 h-100 p-1"
+        [selected]="item.selected"
+        [url]="item.url"
+      ></app-media-video>
     </mat-grid-tile>
   </mat-grid-list>
 </ng-container>

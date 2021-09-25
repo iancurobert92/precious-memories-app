@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@core/core.module';
 import { AuthState } from '@core/states';
+import { AuthLayoutComponent } from '@modules/layouts/auth-layout/auth-layout.component';
+import { MainLayoutComponent } from '@modules/layouts/main-layout/main-layout.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxsDispatchPluginModule } from '@ngxs-labs/dispatch-decorator';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
@@ -16,8 +18,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components';
 import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { MainLayoutComponent } from './layouts';
-import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 
 @NgModule({
   declarations: [AppComponent, AuthLayoutComponent, MainLayoutComponent, HeaderComponent, SidebarComponent],

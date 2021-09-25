@@ -1,24 +1,26 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MediaItem } from '@core/models';
 import { AuthState } from '@core/states';
-import { MediaItemComponent } from '@features/media-gallery/components/media-item/media-item.component';
-import { MediaCollection } from '@features/media-gallery/models/media-collection.model';
-import { DeselectItem, FetchItems, MediaSelectors, SelectItem } from '@features/media-gallery/store';
+import { MediaItemComponent } from '@features/media/components/media-item/media-item.component';
+import { MediaCollection } from '@features/media/models/media-collection.model';
+import { DeselectItem, DeselectOthers, FetchItems, MediaSelectors, SelectItem } from '@features/media/store';
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { take, takeLast, takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-media-gallery',
-  templateUrl: './media-gallery.component.html',
-  styleUrls: ['./media-gallery.component.scss'],
+  selector: 'app-media',
+  templateUrl: './media.component.html',
+  styleUrls: ['./media.component.scss'],
 })
-export class MediaGalleryComponent implements OnInit, OnDestroy {
+export class MediaComponent implements OnInit, OnDestroy {
   mediaItems$?: Observable<MediaItem[]>;
 
   collections: MediaCollection[] = [];
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  private ctrlPressed: boolean = false;
+  private shiftPressed: boolean = false;
 
   constructor(private store: Store) {}
 
@@ -57,13 +59,24 @@ export class MediaGalleryComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  onSelect(item: MediaItemComponent): void {
-    if (!item.data) return;
-
-    if (item.selected) {
-      this.store.dispatch(new SelectItem(item.data));
+  onSelect(item: MediaItem): void {
+    if (!item.selected) {
+      if (!this.ctrlPressed) this.store.dispatch(new DeselectOthers(item));
+      this.store.dispatch(new SelectItem(item));
     } else {
-      this.store.dispatch(new DeselectItem(item.data));
+      this.store.dispatch(new DeselectItem(item));
     }
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    if (event.code === 'ControlLeft') this.ctrlPressed = true;
+    if (event.code === 'ShiftLeft') this.shiftPressed = true;
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  onKeyUp(event: KeyboardEvent) {
+    if (event.code === 'ControlLeft') this.ctrlPressed = false;
+    if (event.code === 'ShiftLeft') this.shiftPressed = false;
   }
 }

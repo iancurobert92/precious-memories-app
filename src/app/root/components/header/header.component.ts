@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SignOut } from '@core/actions';
 import { MediaItem, User } from '@core/models';
-import { MediaService } from '@core/services';
 import { AuthState } from '@core/states';
-import { DeleteItem, DeselectItem, MediaSelectors } from '@features/media-gallery/store';
+import { DeleteItem, MediaSelectors } from '@features/media/store';
 import { FileUploaderConfig } from '@modules/file-uploader/models';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';

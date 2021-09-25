@@ -10,13 +10,7 @@ import { AnonGuard, AuthGuard } from './guards';
 
 @NgModule({
   declarations: [],
-  imports: [
-    RouterModule,
-    NgbModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    FileUploaderModule,
-  ],
+  imports: [RouterModule, NgbModule, AngularFireModule.initializeApp(environment.firebase), AngularFirestoreModule],
   exports: [NgbModule, FileUploaderModule],
   providers: [AuthGuard, AnonGuard, FileUploaderService],
 })

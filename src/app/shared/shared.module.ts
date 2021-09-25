@@ -10,12 +10,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatDividerModule } from '@angular/material/divider';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [],
   imports: [],
   exports: [
     CommonModule,
+    LayoutModule,
     RouterModule,
     FlexLayoutModule,
     FormsModule,

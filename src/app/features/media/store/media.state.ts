@@ -2,17 +2,16 @@ import { Injectable } from '@angular/core';
 import { MediaItem } from '@core/models';
 import { MediaService } from '@core/services';
 import { Action, State, StateContext } from '@ngxs/store';
+import { patch, updateItem } from '@ngxs/store/operators';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { MediaStateModel } from '../models';
-import { AddItem, DeleteItem, DeselectItem, FetchItems, SelectItem } from './media.actions';
-import { patch, append, removeItem } from '@ngxs/store/operators';
+import { AddItem, DeleteItem, DeselectItem, DeselectOthers, FetchItems, SelectItem } from './media.actions';
 
 @State<MediaStateModel>({
   name: 'media',
   defaults: {
     items: [],
-    selectedItems: [],
   },
 })
 @Injectable()
@@ -43,8 +42,8 @@ export class MediaState {
   @Action(SelectItem)
   selectItem(ctx: StateContext<MediaStateModel>, action: SelectItem) {
     ctx.setState(
-      patch({
-        selectedItems: append<MediaItem>([action.payload]),
+      patch<MediaStateModel>({
+        items: updateItem<MediaItem>((item) => item?.id === action.payload.id, patch<MediaItem>({ selected: true })),
       })
     );
   }
@@ -52,8 +51,17 @@ export class MediaState {
   @Action(DeselectItem)
   deselectItem(ctx: StateContext<MediaStateModel>, action: DeselectItem) {
     ctx.setState(
-      patch({
-        selectedItems: removeItem<MediaItem>((item) => item?.id == action.payload.id),
+      patch<MediaStateModel>({
+        items: updateItem<MediaItem>((item) => item?.id === action.payload.id, patch<MediaItem>({ selected: false })),
+      })
+    );
+  }
+
+  @Action(DeselectOthers)
+  deselectOthers(ctx: StateContext<MediaStateModel>, action: DeselectOthers) {
+    ctx.setState(
+      patch<MediaStateModel>({
+        items: updateItem<MediaItem>((item) => item?.id !== action.payload.id, patch<MediaItem>({ selected: false })),
       })
     );
   }

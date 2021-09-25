@@ -25,6 +25,11 @@ export class DeselectItem {
   constructor(public payload: MediaItem) {}
 }
 
+export class DeselectOthers {
+  static readonly type = '[Media] Deselect Others';
+  constructor(public payload: MediaItem) {}
+}
+
 export class ResetSelection {
   static readonly type = '[Media] Reset Selection';
 }

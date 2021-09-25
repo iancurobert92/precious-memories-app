@@ -8,10 +8,10 @@ import { MediaItemComponent } from '../media-item/media-item.component';
   styleUrls: ['./media-grid-list.component.scss'],
 })
 export class MediaGridListComponent {
-  @Input() data?: MediaItem[] | null;
-  @Output() onselect: EventEmitter<MediaItemComponent> = new EventEmitter<MediaItemComponent>();
+  @Input() data?: MediaItem[];
+  @Output() onselect: EventEmitter<MediaItem> = new EventEmitter<MediaItem>();
 
-  onSelect(item: MediaItemComponent): void {
+  onClick(item: MediaItem): void {
     this.onselect.emit(item);
   }
 }

@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MediaItem } from '@core/models';
-import { MediaService } from '@core/services';
 import { AuthState } from '@core/states';
-import { AddItem } from '@features/media-gallery/store';
+import { AddItem } from '@features/media/store';
 import { UploadStatusComponent } from '@modules/file-uploader/components';
 import { UploadStatus } from '@modules/file-uploader/enums';
 import { FileUploaderService } from '@modules/file-uploader/services';
@@ -25,15 +24,11 @@ export class AppComponent implements OnInit, OnDestroy {
       next: (data) => {
         data.downloadUrl$.toPromise().then((url) => {
           if (url) {
+            const item = new MediaItem('', data.storageLink, new Date(data.file.lastModified).toDateString(), url);
             this.store.dispatch(
               new AddItem({
                 user: this.store.selectSnapshot(AuthState.user)!,
-                item: {
-                  id: '',
-                  dateCreated: new Date(data.file.lastModified).toDateString(),
-                  storageLink: data.storageLink,
-                  url: url,
-                },
+                item: { ...item },
               })
             );
           }

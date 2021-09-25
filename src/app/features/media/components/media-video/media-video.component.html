@@ -1,0 +1,5 @@
+<div class="w-100 h-100" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+  <video #videoRef class="fit-cover" (timeupdate)="onTimeUpdate()">
+    <source [src]="url" />
+  </video>
+</div>

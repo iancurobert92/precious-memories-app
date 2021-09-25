@@ -3,20 +3,20 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { NgxsModule } from '@ngxs/store';
 import { SharedModule } from '@shared/shared.module';
 import { MediaActionsComponent, MediaGridListComponent, MediaImageComponent, MediaVideoComponent } from './components';
-import { MediaGalleryRoutingModule } from './media-gallery-routing.module';
-import { MediaGalleryComponent } from './pages';
+import { MediaRoutingModule } from './media-routing.module';
+import { MediaComponent } from './pages';
 import { MediaTypePipe } from './pipes';
 import { MediaState } from './store';
 
 @NgModule({
   declarations: [
-    MediaGalleryComponent,
+    MediaComponent,
     MediaTypePipe,
     MediaGridListComponent,
     MediaActionsComponent,
     MediaVideoComponent,
     MediaImageComponent,
   ],
-  imports: [MediaGalleryRoutingModule, SharedModule, MatGridListModule, NgxsModule.forFeature([MediaState])],
+  imports: [MediaRoutingModule, SharedModule, MatGridListModule, NgxsModule.forFeature([MediaState])],
 })
-export class MediaGalleryModule {}
+export class MediaModule {}

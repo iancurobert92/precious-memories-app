@@ -7,7 +7,7 @@ import {
   QuerySnapshot,
 } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { MediaItem } from '@core/models';
+import { MediaItem, MediaItemAdapter } from '@core/models';
 import { from, Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 
@@ -15,10 +15,15 @@ import { map, take, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class MediaService {
-  constructor(private db: AngularFirestore, private storage: AngularFireStorage) {}
+  constructor(private db: AngularFirestore, private storage: AngularFireStorage, private adapter: MediaItemAdapter) {}
 
   fetchMedia(uid: string): Observable<MediaItem[]> {
-    return this.db.collection('users').doc(uid).collection('media').valueChanges() as Observable<MediaItem[]>;
+    return this.db
+      .collection('users')
+      .doc(uid)
+      .collection('media')
+      .valueChanges()
+      .pipe(map((data: DocumentData[]) => data.map((item: DocumentData) => this.adapter.adapt(item))));
   }
 
   addMedia(item: MediaItem, uid: string) {

@@ -1,19 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AlbumsComponent, MediaGalleryComponent } from './pages';
+import { MediaComponent } from './pages';
 
 const routes: Routes = [
   {
-    path: 'photos',
-    component: MediaGalleryComponent,
-  },
-  {
-    path: 'albums',
-    component: AlbumsComponent,
+    path: 'media',
+    component: MediaComponent,
   },
   {
     path: '',
-    redirectTo: 'photos',
+    redirectTo: 'media',
     pathMatch: 'full',
   },
 ];
@@ -22,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MediaGalleryRoutingModule {}
+export class MediaRoutingModule {}
