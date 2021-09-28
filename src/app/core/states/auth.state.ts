@@ -52,7 +52,7 @@ export class AuthState {
       .signInWithEmailAndPassword(action.payload.username, action.payload.password)
       .then((res) => {
         if (!res.user) return;
-        const user: User = { id: res.user.uid };
+        const user: User = new User(res.user.uid);
         ctx.patchState({
           user: user,
         });

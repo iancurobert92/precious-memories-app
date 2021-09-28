@@ -1,7 +1,5 @@
 import { MediaItem } from '@core/models';
 
-export interface MediaCollection {
-  location?: string;
-  date: string;
-  media: MediaItem[];
+export class MediaCollection {
+  constructor(public date: string, public media: MediaItem[], public location?: string) {}
 }

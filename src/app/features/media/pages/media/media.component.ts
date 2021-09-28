@@ -39,10 +39,7 @@ export class MediaComponent implements OnInit, OnDestroy {
 
         this.collections = [];
         for (let key in mediaMap) {
-          this.collections.push({
-            date: mediaMap[key][0].dateCreated,
-            media: mediaMap[key],
-          });
+          this.collections.push(new MediaCollection(mediaMap[key][0].dateCreated, mediaMap[key]));
         }
         this.collections.sort((a, b) => (new Date(a.date).getTime() > new Date(b.date).getTime() ? 1 : -1));
       })
